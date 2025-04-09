@@ -2,6 +2,8 @@
 
 This is a moderation system for Roblox games that supports Trello integration for ban management and optional Discord bot control. Admins can ban/kick players in-game using chat commands or through Discord.
 
+(note: this hasnt been tested in a long time)
+
 ---
 
 ## 📁 Folder Structure (Roblox Studio)
