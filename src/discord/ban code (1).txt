@@ -1,0 +1,39 @@
+import discord
+from discord.ext import commands
+import trello
+from trello import TrelloClient
+from pyblox3 import Users
+import asyncio
+
+prefix = "PREFIX HERE"
+client = commands.Bot(command_prefix=prefix)
+tclient = TrelloClient(
+    api_key="KEY HERE",
+    api_secret="TOKEN HERE"
+)
+
+@client.command()
+@commands.has_permissions(ban_members=True)
+async def gban(ctx, user):
+    listid = "no"
+    banlist = tclient.get_list(listid)
+
+    if user.isnumeric():
+        plrId = str(user)
+    else:
+        try:
+            plrData = Users.User(user)
+            plrId = str(plrData.Id)
+        except:
+            await ctx.send(f"<@{ctx.author.id}>, Error finding user ``{user}``, does this user exist?")
+            return
+
+    if plrId in str(banlist.list_cards()):
+        await ctx.send(f"<@{ctx.author.id}>, User ``{user}`` is already banned.")
+        return      
+
+    banlist.add_card(plrId)
+    await ctx.send(f"<@{ctx.author.id}>, Sucessfully banned user ``{user}``,")              
+
+
+client.run("DISCORD TOKEN HERE")
